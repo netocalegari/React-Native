@@ -9,9 +9,13 @@ import Highlight from "@components/Highlight";
 import Input from "@components/Input";
 import ListEmpty from "@components/ListEmpty";
 import PlayerCard from "@components/PlayerCard";
+import { useRoute } from "@react-navigation/native";
 
 import { Container, Form, HeaderList, PlayerCount } from "./style";
 
+type RouteParams = {
+  group: string;
+};
 export default function Players() {
   const [team, setTeam] = useState("time a");
   const [teams, setTeams] = useState(["time a", "time b"]);
@@ -29,13 +33,13 @@ export default function Players() {
     // "Miguel",
     // "Hailey",
   ]);
+
+  const route = useRoute();
+  const { group } = route.params as RouteParams;
   return (
     <Container>
       <Header showBackButton />
-      <Highlight
-        title="Team Name"
-        subTitle="Add people and separate the teams"
-      />
+      <Highlight title={group} subTitle="Add people and separate the teams" />
 
       <Form>
         <Input placeholder="Participant name" autoCorrect={false} />

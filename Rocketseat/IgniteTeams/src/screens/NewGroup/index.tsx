@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import Button from "@components/Button";
 import Header from "@components/Header";
 import Highlight from "@components/Highlight";
@@ -7,10 +9,11 @@ import { useNavigation } from "@react-navigation/native";
 import { Container, Content, Icon } from "./style";
 
 export default function NewGroup() {
+  const [groupName, setGroupName] = useState("");
   const navigation = useNavigation();
 
   const handleNewGroup = () => {
-    navigation.navigate("players", { group: "Banana Monkeys" });
+    navigation.navigate("players", { group: groupName });
   };
   return (
     <Container>
@@ -22,7 +25,7 @@ export default function NewGroup() {
           subTitle="Create a new team to add other people"
         />
 
-        <Input placeholder="Name" />
+        <Input placeholder="Name" onChangeText={setGroupName} />
 
         <Button title="Create" onPress={handleNewGroup} />
       </Content>
