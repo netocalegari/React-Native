@@ -6,6 +6,7 @@ import GroupCard from "@components/GroupCard";
 import Header from "@components/Header";
 import Highlight from "@components/Highlight";
 import ListEmpty from "@components/ListEmpty";
+import { useNavigation } from "@react-navigation/native";
 
 import { Container } from "./styles";
 
@@ -15,6 +16,11 @@ export default function Groups() {
     // "BigChungusses",
     // "Evil Bunnies",
   ]);
+  const navigation = useNavigation();
+
+  const handleNewGroup = () => {
+    navigation.navigate("new");
+  };
   return (
     <Container>
       <Header />
@@ -28,7 +34,7 @@ export default function Groups() {
         contentContainerStyle={groups.length === 0 && { flex: 1 }}
         showsVerticalScrollIndicator={false}
       />
-      <Button title="Add Team" />
+      <Button title="Add Team" onPress={handleNewGroup} />
     </Container>
   );
 }
