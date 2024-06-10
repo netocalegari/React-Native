@@ -22,7 +22,7 @@ export default function NewGroup() {
       }
 
       await createGroup(groupName);
-      navigation.navigate("players", { group: groupName });
+      navigation.navigate("groups");
     } catch (err) {
       if (err instanceof AppError) {
         Alert.alert("New Group", err.message);

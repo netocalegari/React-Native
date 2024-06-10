@@ -24,6 +24,10 @@ export default function Groups() {
     }
   };
 
+  const handleOpenGroup = (group: string) => {
+    navigation.navigate("players", { group });
+  };
+
   const handleNewGroup = () => {
     navigation.navigate("new");
   };
@@ -41,7 +45,9 @@ export default function Groups() {
       <FlatList
         data={groups}
         keyExtractor={(item) => item}
-        renderItem={({ item }) => <GroupCard title={item} />}
+        renderItem={({ item }) => (
+          <GroupCard title={item} onPress={() => handleOpenGroup(item)} />
+        )}
         ListEmptyComponent={() => <ListEmpty message="No groups found" />}
         contentContainerStyle={groups.length === 0 && { flex: 1 }}
         showsVerticalScrollIndicator={false}
