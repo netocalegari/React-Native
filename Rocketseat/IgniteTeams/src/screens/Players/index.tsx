@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Alert, FlatList } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { Alert, FlatList, TextInput } from "react-native";
 
 import Button from "@components/Button";
 import ButtonIcon from "@components/ButtonIcon";
@@ -23,13 +23,15 @@ type RouteParams = {
   group: string;
 };
 export default function Players() {
-  const [team, setTeam] = useState("team a");
-  const [teams, setTeams] = useState(["team a", "team b"]);
-  const [players, setPlayers] = useState<PlayerStorageDTO[]>([]);
   const [newPlayerName, setNewPlayerName] = useState("");
+
+  const [team, setTeam] = useState("team a");
+  const [players, setPlayers] = useState<PlayerStorageDTO[]>([]);
 
   const route = useRoute();
   const { group } = route.params as RouteParams;
+
+  const newPlayerNameInputRef = useRef<TextInput>(null);
 
   const handleAddPlayer = async () => {
     if (newPlayerName.trim().length === 0) {
@@ -43,6 +45,10 @@ export default function Players() {
 
     try {
       await addPlayerByGroup(newPlayer, group);
+
+      newPlayerNameInputRef.current?.blur();
+
+      setNewPlayerName("");
       fetchPlayersByTeam();
     } catch (err) {
       if (err instanceof AppError) {
@@ -80,16 +86,20 @@ export default function Players() {
 
       <Form>
         <Input
+          inputRef={newPlayerNameInputRef}
           placeholder="Participant name"
           autoCorrect={false}
           onChangeText={setNewPlayerName}
+          value={newPlayerName}
+          onSubmitEditing={handleAddPlayer}
+          returnKeyType="done"
         />
         <ButtonIcon icon="add" onPress={handleAddPlayer} />
       </Form>
 
       <HeaderList>
         <FlatList
-          data={teams}
+          data={["team a", "team b"]}
           keyExtractor={(item) => item}
           renderItem={({ item }) => (
             <Filter
